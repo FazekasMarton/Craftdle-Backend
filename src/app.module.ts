@@ -17,6 +17,7 @@ import { SettingsModule } from './settings/settings.module';
 import { TipModule } from './tip/tip.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CliModule } from './cli/cli.module';
+import { MaintenanceModule } from './maintenance/maintenance.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CliModule } from './cli/cli.module';
     TipModule,
     StatisticsModule,
     CliModule,
+    MaintenanceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

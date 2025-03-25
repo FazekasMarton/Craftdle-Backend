@@ -29,27 +29,51 @@ export async function getStreak(userId: number, prisma: PrismaService) {
     });
 
     let streak = 0;
-    const uniqueDates = new Set<number>();
     let lastDate = new Date(playedDailyGames[0]?.date);
     lastDate.setHours(1, 0, 0, 0);
+
     const yesterday = getCurrentDate();
     yesterday.setDate(yesterday.getDate() - 1);
     yesterday.setHours(1, 0, 0, 0);
-    
-    if (lastDate.getTime() >= yesterday.getTime()) {
-        for (let game of playedDailyGames) {
-            const gameDate = new Date(game.date);
-            gameDate.setHours(1, 0, 0, 0);
-            if (uniqueDates.has(gameDate.getTime())) {
-                continue;
-            }
-            if (gameDate.getTime() !== lastDate.getTime()) {
+
+    const playedDates = new Set<number>();
+    const maintenanceDates = await getMaintenanceDates(prisma);
+
+    playedDailyGames.forEach(game => {
+        const date = new Date(game.date);
+        date.setHours(1, 0, 0, 0);
+        playedDates.add(date.getTime());
+    });
+
+    if (lastDate.getTime() >= yesterday.getTime() || maintenanceDates.has(yesterday.getTime())) {
+        while (playedDates.has(lastDate.getTime()) || maintenanceDates.has(lastDate.getTime())) {
+            if(playedDates.has(lastDate.getTime())){
+                streak++;
+                lastDate.setDate(lastDate.getDate() - 1);
+            } else if(maintenanceDates.has(lastDate.getTime())){
+                lastDate.setDate(lastDate.getDate() - 1);
+            } else {
                 break;
             }
-            uniqueDates.add(gameDate.getTime());
-            streak++;
-            lastDate.setDate(lastDate.getDate() - 1);
         }
     }
+
     return streak;
+}
+
+async function getMaintenanceDates(prisma: PrismaService): Promise<Set<number>> {
+    const maintenances = await prisma.maintenance.findMany();
+    const dates = new Set<number>();
+
+    maintenances.forEach(maintenance => {
+        let date = new Date(maintenance.start);
+        date.setHours(1, 0, 0, 0);
+
+        while (date <= maintenance.end) {
+            dates.add(date.getTime());
+            date.setDate(date.getDate() + 1);
+        }
+    });
+
+    return dates;
 }

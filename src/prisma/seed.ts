@@ -5,7 +5,7 @@ import * as path from 'path';
 const prisma = new PrismaClient();
 
 async function main() {
-    const sqlFilePath = path.join(__dirname, '/localData/seeder.sql'); // Cseréld ki a fájl útvonalát
+    const sqlFilePath = path.join(__dirname, './seeder.sql'); // Cseréld ki a fájl útvonalát
     const sqlContent = fs.readFileSync(sqlFilePath, 'utf8'); // Fájl beolvasása
 
     console.log('Seeding adatbázis...');

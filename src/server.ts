@@ -14,11 +14,16 @@ async function init() {
   // CORS engedélyezése
   app.enableCors({
     origin: [
+      'http://localhost:4173',
+      'http://localhost:4174',
       'http://localhost:5173', 
       'http://localhost:5174',
       'https://craftdle.hu', 
       'https://admin.craftdle.hu', 
+      'http://test.localhost:4173', 
+      'http://test.localhost:4174', 
       'http://test.localhost:5173', 
+      'http://test.localhost:5174', 
       'https://test.craftdle.hu',
       'https://admin.test.craftdle.hu',
     ], // Csak erről a domainről érkező kéréseket engedélyezzük

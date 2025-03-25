@@ -1,5 +1,4 @@
 import { AchievementsGateway } from 'src/achievements/achievements.gateway';
-import { Maintenance } from 'src/admin/classes/Maintenance';
 import { Game } from 'src/game/classes/game.class';
 import { UsersService } from 'src/users/users.service';
 import { Server, Socket } from 'socket.io';
@@ -11,6 +10,7 @@ import { RecipesService } from 'src/recipes/recipes.service';
 import { CacheService } from 'src/cache/cache.service';
 import { GameService } from 'src/game/game.service';
 import { TokenService } from 'src/token/token.service';
+import { MaintenanceService } from 'src/maintenance/maintenance.service';
 
 @WebSocketGateway({ cors: true })
 export class SocketGateway
@@ -24,7 +24,7 @@ export class SocketGateway
 
   constructor(
     private readonly usersService: UsersService,
-    private readonly maintenanceService: Maintenance,
+    private readonly maintenanceService: MaintenanceService,
     private readonly achievementGateway: AchievementsGateway,
     private readonly prisma: PrismaService,
     private readonly cacheService: CacheService,

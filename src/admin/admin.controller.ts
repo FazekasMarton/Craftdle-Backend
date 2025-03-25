@@ -1,19 +1,19 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Headers, HttpException, HttpStatus } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { Maintenance } from './classes/Maintenance';
 import { SocketGateway } from 'src/socket/socket.gateway';
 import { EmailService } from 'src/email/email.service';
 import { StatisticsService } from 'src/statistics/statistics.service';
 import { CliService } from 'src/cli/cli.service';
 import { LoginDataDto } from 'src/users/dtos/login.dto';
-import { CreateMaintenanceDto } from './dto/createMaintenance.dto';
+import { CreateMaintenanceDto } from '../maintenance/dto/createMaintenance.dto';
 import { UpdateAdminRightsDto } from './dto/updateAdminRights.dto';
+import { MaintenanceService } from 'src/maintenance/maintenance.service';
 
 @Controller('admin')
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,
-    private readonly maintenanceService: Maintenance,
+    private readonly maintenanceService: MaintenanceService,
     private readonly socketGateway: SocketGateway,
     private readonly emailService: EmailService,
     private readonly statisticsService: StatisticsService,
